@@ -82,10 +82,9 @@ export class BlockGrid {
     this.buildList(block, directions, 'down');
     this.buildList(block, directions, 'left');
     this.buildList(block, directions, 'right');
-    console.log('deleteList=>', this.deleteList);
   }
 
-  deleteColour(list){console.log('deleteColour deleteList', list);
+  deleteColour(list){
     let length = list.length;
     for(let i = 0; i < length; i++) {
       this.removeBlock(list[i].x, list[i]. y);
