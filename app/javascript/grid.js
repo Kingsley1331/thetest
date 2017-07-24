@@ -58,16 +58,18 @@ export class BlockGrid {
     let colour = block.colour;
     this.deleteList = [];
     this.addToDeleteList(block, colour);
-    this.deleteColour(this.deleteList);
+    this.deleteBlocks(this.deleteList);
     this.render();
   }
 
-  removeBlock(x, y) {
+  removeBlock(block) {
+     let x = block.x;
+     let y = block.y;
      this.grid[x].splice(y, 1);
-     this.updateIds(x, y);
+     this.updateData(x, y);
   }
 
-  updateIds(x, y) {
+  updateData(x, y) {
     for(let i = y; i < this.grid[x].length; i++) {
       this.grid[x][i].y -= 1;
     }
@@ -78,34 +80,34 @@ export class BlockGrid {
       this.deleteList.push(block);
     }
     let directions = {up: true, left: true, down: true, right: true};
-    this.buildList(block, directions, 'up');
-    this.buildList(block, directions, 'down');
-    this.buildList(block, directions, 'left');
-    this.buildList(block, directions, 'right');
+    this.buildDeleteList(block, directions, 'up');
+    this.buildDeleteList(block, directions, 'down');
+    this.buildDeleteList(block, directions, 'left');
+    this.buildDeleteList(block, directions, 'right');
   }
 
-  deleteColour(list){
-    let length = list.length;
-    for(let i = 0; i < length; i++) {
-      this.removeBlock(list[i].x, list[i]. y);
-    }
+  deleteBlocks(list) {
+     list.forEach(function(block) {
+       this.removeBlock(block);
+    }.bind(this));
   }
 
   clearGrid() {
     let el = document.querySelector('#gridEl');
     let col = document.querySelectorAll('.col');
-    for(let i = 0; i < col.length; i++) {
-      el.removeChild(col[i]);
-    }
+    col.forEach(function(block){
+        el.removeChild(block);
+    });
   }
 
-  buildList(block, directions, direction) {
+  buildDeleteList(block, directions, direction) {
     let x = block.x;
     let y = block.y;
     let grid = this.grid;
     let colour = block.colour;
     let col;
     let row;
+
     if(direction === 'up') {
       col = x;
       row = y+1;
@@ -132,7 +134,6 @@ export class BlockGrid {
       }
     }
   }
-
 }
 
 window.addEventListener('DOMContentLoaded', () => new BlockGrid().render());
