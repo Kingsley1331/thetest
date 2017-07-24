@@ -15,5 +15,24 @@ describe('Block', () => {
 });
 
 describe('BlockGrid', () => {
-  it('should be implemented!', () => {});
+  it('should be implemented!', () => {
+      let blockGrid = new BlockGrid();
+      let colNumber = blockGrid.grid.length;
+      let rowNumber = blockGrid.grid[0].length;
+      assert.equal(colNumber, 10, 'there should be 10 columns');
+      assert.equal(rowNumber, 10, 'there should be 10 rows');
+  });
+  it('should remove block', () => {
+      let blockGrid = new BlockGrid();
+      blockGrid.removeBlock(blockGrid.grid[0][0]);
+      let rowNumber = blockGrid.grid[0].length;
+      assert.equal(rowNumber, 9, 'there should be 9 rows');
+  });
+  it('should update y value of block', () => {
+      let blockGrid = new BlockGrid();
+      blockGrid.updateData(0, 5);
+      assert.equal(blockGrid.grid[0][5].y, 4, 'the y value should be updated from 5 to 4');
+      assert.equal(blockGrid.grid[0][9].y, 8, 'the y value should be updated from 9 to 8');
+      assert.equal(blockGrid.grid[0][2].y, 2, 'y values below 5 should be unchanged');
+  });
 });
